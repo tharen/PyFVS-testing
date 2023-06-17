@@ -30,6 +30,8 @@ jobs:
         python -m pip install pytest meson-python numpy pandas matplotlib build wheel setuptools_scm
     - name: Build and package
       run: |
+        gfortran --version
+        gcc --version
         python -m build --no-isolation
     - name: Test with pytest
       run: |
