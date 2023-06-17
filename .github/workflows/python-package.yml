@@ -33,6 +33,7 @@ jobs:
     - name: Build and package
       run: |
         python --version
+        where python
         gfortran --version
         gcc --version
         python -m build --no-isolation
