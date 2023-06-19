@@ -35,7 +35,7 @@ jobs:
         python --version
         gfortran --version
         gcc --version
-        python -m build --no-isolation -Csetup-args="--verbose"
+        python -m build --no-isolation -Csetup-args="--errorlogs"
     - name: Test with pytest
       run: |
         pytest
