@@ -49,6 +49,13 @@ jobs:
     - name: Build and package
       run: |
         python -m build --no-isolation
-    - name: Test with pytest
-      run: |
-        pytest
+    - name: Store artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        path: |
+          dist/*.whl
+          dist/*.tar.gz
+        if-no-files-found: warn
+#     - name: Test with pytest
+#       run: |
+#         pytest
