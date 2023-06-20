@@ -37,12 +37,13 @@ jobs:
     - name: Setup Ninja
       uses: ashutoshvarma/setup-ninja@master
       with:
-          # ninja version to download. Default: 1.10.0
-          version: 1.10.0
-    - name: show-gfortran
+          version: 1.11.1
+    - name: show-versions
       run: |
         gcc --version
         gfortran --version
+        ninja --version
+        python --version
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
