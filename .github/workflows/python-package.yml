@@ -35,7 +35,10 @@ jobs:
         choco install rtools -y --no-progress --force --version=4.0.0.20220206
         echo "c:\rtools40\ucrt64\bin;" >> $env:GITHUB_PATH
     - name: Setup Ninja
-      uses: ashutoshvarma/setup-ninja@v1.1
+      uses: ashutoshvarma/setup-ninja@master
+      with:
+          # ninja version to download. Default: 1.10.0
+          version: 1.10.0
     - name: show-gfortran
       run: |
         gcc --version
