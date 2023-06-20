@@ -55,13 +55,13 @@ jobs:
     - name: Store Wheel
       uses: actions/upload-artifact@v3
       with:
-        name: wheels
+        name: pyfvs-${{ runner.os }}-py${{ matrix.python-version }}-wheels
         path: dist/*.whl
         if-no-files-found: warn
     - name: Store Sdist
       uses: actions/upload-artifact@v3
       with:
-        name: sdist
+        name: pyfvs-sdist
         path: dist/*.tar.gz
         if-no-files-found: warn
 #     - name: Test with pytest
