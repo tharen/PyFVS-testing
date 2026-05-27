@@ -18,13 +18,16 @@ jobs:
       matrix:
         python-version: ["3.10","3.11","3.12","3.13"]
         os: [ubuntu-latest, windows-latest] #, macos-latest]
-        compiler: [gcc]
-        compiler-version: [15]
-        exclude:
-          - os: windows-latest
-            compiler-version: 15
-          - os: ubuntu-latest
-            compiler-version: 15
+        toolchain:
+         - {compiler: gcc, verion: 15}
+         
+        # compiler: [gcc]
+        # compiler-version: [15]
+        # exclude:
+        #   - os: windows-latest
+        #     compiler-version: 13
+        #   - os: ubuntu-latest
+        #     compiler-version: 15
 
     steps:
     - name: Fortran Setup
