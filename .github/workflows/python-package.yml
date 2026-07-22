@@ -16,22 +16,31 @@ jobs:
   make-wheels:
     name: Build wheels for ${{ matrix.python }} on ${{ matrix.os }} (compiler ${{ matrix.compiler-version }})
     runs-on: ${{ matrix.os }}
+    # strategy:
+    #   fail-fast: false
+    #   matrix:
+    #     os: [ubuntu-latest, windows-latest, macos-latest]
+    #     python: ['cp310', 'cp311', 'cp312', 'cp313', 'cp314']
+    #     include:
+    #       - os: ubuntu-latest
+    #         compiler: gcc
+    #         compiler-version: 15
+    #       - os: macos-latest
+    #         compiler: gcc
+    #         compiler-version: 15
+    #       - os: windows-latest
+    #         compiler: gcc
+    #         compiler-version: 15
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python: ['cp310', 'cp311', 'cp312', 'cp313', 'cp314']
+        os: [macos-latest]
+        python: ['cp313', 'cp314']
         include:
-          - os: ubuntu-latest
-            compiler: gcc
-            compiler-version: 15
           - os: macos-latest
             compiler: gcc
             compiler-version: 15
-          - os: windows-latest
-            compiler: gcc
-            compiler-version: 15
-
+          
     steps:
     - name: Fortran Setup
       uses: fortran-lang/setup-fortran@v1
@@ -58,6 +67,7 @@ jobs:
         CIBW_SKIP: "*-win32 *-manylinux_i686 *-musllinux*"
         CIBW_ARCHS_LINUX: x86_64
         CIBW_ARCHS_WINDOWS: AMD64
+        CIBW_ARCHS_MACOS: universal2
 
         # Use manylinux_2_28 to get a gfortran-15-capable image
         CIBW_MANYLINUX_X86_64_IMAGE: quay.io/pypa/manylinux_2_28_x86_64
@@ -69,6 +79,11 @@ jobs:
 
         CIBW_BEFORE_BUILD_WINDOWS: |
           pip install click numpy pandas build wheel setuptools setuptools_scm meson-python ninja
+
+        CIBW_BEFORE_BUILD_MACOS: |
+          brew install gcc &&
+          pip install click numpy pandas build wheel setuptools setuptools_scm meson-python ninja
+        CIBW_ENVIRONMENT_MACOS: FC=gfortran
 
         CIBW_BUILD_FRONTEND: "build"
         CIBW_BUILD_VERBOSITY: 1
