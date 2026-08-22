@@ -48,25 +48,13 @@ jobs:
       env:
         CIBW_BUILD: ${{ matrix.python }}-*
         CIBW_SKIP: "*-win32 *-manylinux_i686 *-musllinux*"
-        CIBW_ARCHS_LINUX: x86_64
-        CIBW_ARCHS_WINDOWS: AMD64
-        CIBW_ARCHS_MACOS: universal2
-
-        # Use manylinux_2_28 to get a gfortran-15-capable image
-        CIBW_MANYLINUX_X86_64_IMAGE: quay.io/pypa/manylinux_2_28_x86_64
-
-        # Install build dependencies inside the wheel-build environment
-        CIBW_BEFORE_BUILD_LINUX: |
-          dnf install -y gcc-gfortran ninja-build &&
-          pip install click numpy pandas build wheel setuptools setuptools_scm meson-python ninja patchelf
-
-        CIBW_BEFORE_BUILD_WINDOWS: |
-          pip install click numpy pandas build wheel setuptools setuptools_scm meson-python ninja
-
+        CIBW_ARCHS_MACOS: auto
+        
         CIBW_BEFORE_BUILD_MACOS: |
+          brew install gcc ninja
           pip install click numpy pandas build wheel setuptools setuptools_scm meson-python ninja
-        CIBW_ENVIRONMENT_MACOS: FC=gfortran
-
+        
+        CIBW_ENVIRONMENT_MACOS: FC=gfortran F90=gfortran F77=gfortran
         CIBW_BUILD_FRONTEND: "build"
         CIBW_BUILD_VERBOSITY: 1
 
