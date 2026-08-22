@@ -14,23 +14,9 @@ on:
 
 jobs:
   make-wheels:
-    name: Build wheels for ${{ matrix.python }} on ${{ matrix.os }} (compiler ${{ matrix.compiler-version }})
+    name: Build wheels for ${{ matrix.python }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     os: [ubuntu-latest, windows-latest, macos-latest]
-    #     python: ['cp310', 'cp311', 'cp312', 'cp313', 'cp314']
-    #     include:
-    #       - os: ubuntu-latest
-    #         compiler: gcc
-    #         compiler-version: 15
-    #       - os: macos-latest
-    #         compiler: gcc
-    #         compiler-version: 15
-    #       - os: windows-latest
-    #         compiler: gcc
-    #         compiler-version: 15
+    
     strategy:
       fail-fast: false
       matrix:
@@ -38,8 +24,7 @@ jobs:
         python: ['cp314']
         include:
           - os: macos-latest
-            compiler: clang
-            compiler-version: *
+            compiler: gnu
           
     steps:
     - name: Fortran Setup
@@ -47,7 +32,6 @@ jobs:
       id: setup-fortran
       with:
         compiler: ${{ matrix.compiler }}
-        version: ${{ matrix.compiler-version }}
 
     - name: Checkout
       uses: actions/checkout@v6
@@ -57,7 +41,6 @@ jobs:
 
     - name: Show compiler versions
       run: |
-        gcc --version
         gfortran --version
 
     - name: Build wheels
@@ -81,7 +64,6 @@ jobs:
           pip install click numpy pandas build wheel setuptools setuptools_scm meson-python ninja
 
         CIBW_BEFORE_BUILD_MACOS: |
-          # brew install gcc &&
           pip install click numpy pandas build wheel setuptools setuptools_scm meson-python ninja
         CIBW_ENVIRONMENT_MACOS: FC=gfortran
 
@@ -112,7 +94,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v6
       with:
-        python-version: "3.13"
+        python-version: "3.14"
         architecture: x64
         cache: pip
 
