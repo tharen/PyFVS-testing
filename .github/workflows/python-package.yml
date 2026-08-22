@@ -35,11 +35,11 @@ jobs:
       fail-fast: false
       matrix:
         os: [macos-latest]
-        python: ['cp313', 'cp314']
+        python: ['cp314']
         include:
           - os: macos-latest
-            compiler: gcc
-            compiler-version: 15
+            compiler: clang
+            compiler-version: *
           
     steps:
     - name: Fortran Setup
@@ -81,7 +81,7 @@ jobs:
           pip install click numpy pandas build wheel setuptools setuptools_scm meson-python ninja
 
         CIBW_BEFORE_BUILD_MACOS: |
-          brew install gcc &&
+          # brew install gcc &&
           pip install click numpy pandas build wheel setuptools setuptools_scm meson-python ninja
         CIBW_ENVIRONMENT_MACOS: FC=gfortran
 
