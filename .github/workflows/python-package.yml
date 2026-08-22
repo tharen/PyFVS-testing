@@ -24,7 +24,7 @@ jobs:
         python: ['cp314']
         include:
           - os: macos-latest
-            compiler: gnu
+            compiler: gcc
           
     steps:
     - name: Fortran Setup
