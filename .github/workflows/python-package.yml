@@ -50,6 +50,9 @@ jobs:
         CIBW_SKIP: "*-win32 *-manylinux_i686 *-musllinux*"
         CIBW_CONFIG_SETTINGS: "setup-args=-Dfvsvariants=pn"
         CIBW_ARCHS_MACOS: auto
+
+        # Set it globally so both building and delocate repair see it
+        MACOSX_DEPLOYMENT_TARGET: "14.0"
         
         CIBW_BEFORE_BUILD_MACOS: |
           brew install gcc ninja
@@ -59,7 +62,7 @@ jobs:
           FC=gfortran
           F90=gfortran
           F77=gfortran
-          MACOSX_DEPLOYMENT_TARGET=14.0
+          
         CIBW_BUILD_FRONTEND: "build"
         CIBW_BUILD_VERBOSITY: 1
 
